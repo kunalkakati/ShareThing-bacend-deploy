@@ -109,6 +109,30 @@ router.get("/users", async (req, res) => {
 
 });
 
+router.get("/user/:email", async (req, res)=>{
+  try {
+    const users = await User.find({email: req.params.email});
+    res.send(users);
+} catch (error) {
+    console.log("Problem occured on routes(/user/email) " + error.massage);
+    return res.sendStatus(404).send("Internel server error.");
+}
+})
+
+router.put("/user/update/:uid", async (req, res)=>{
+  try {
+    const salt = bcrypt.genSaltSync(10);
+    const HashPass = await bcrypt.hash(req.body.password, salt);
+    const users = await User.findByIdAndUpdate(req.params.uid, {$set: {Password: HashPass}}, {new: true});
+    res.send(users !== null ? {state: true} : {state: false});
+} catch (error) {
+    console.log("Problem occured on routes(/user/email) " + error.massage);
+    return res.sendStatus(404).send("Internel server error.");
+}
+})
+
+
+
 // !Route-5 (Admin user delete)
 router.delete("/delete/user/:id", async (req, res) => {
   try {
