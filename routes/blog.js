@@ -56,8 +56,12 @@ router.post("/add_blogs", FatchUser ,upload.single("file"), [body('description',
         // JS destructuring
         const { title, description, tags } = req.body;
         let user = await User.findOne({_id: req.user.id});
-        if (req.file === undefined) return res.send("you must select a file.");
-        const imgUrl = `https://sharething-api.onrender.com/api/blog/image/${req.file.filename}`;
+        // if (req.file === undefined) return res.send("you must select a file.");
+        const imgUrl = '';
+        if(req.file !== undefined){
+             imgUrl = `https://sharething-api.onrender.com/api/blog/image/${req.file.filename}`;
+        }
+
         // save to database[title means - title: title (if both name are same)].
         const note = new Blogs({
             user: req.user.id,
