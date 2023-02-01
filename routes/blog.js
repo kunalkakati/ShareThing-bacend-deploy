@@ -57,7 +57,7 @@ router.post("/add_blogs", FatchUser ,upload.single("file"), [body('description',
         const { title, description, tags } = req.body;
         let user = await User.findOne({_id: req.user.id});
         // if (req.file === undefined) return res.send("you must select a file.");
-        const imgUrl = '';
+        const imgUrl = 'https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png';
         if(req.file !== undefined){
              imgUrl = `https://sharething-api.onrender.com/api/blog/image/${req.file.filename}`;
         }
